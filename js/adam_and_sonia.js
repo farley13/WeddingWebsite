@@ -27,6 +27,7 @@ var wedding = (function () {
 		
 	    } else {
 		$stickyEl.removeClass('sticky')
+		window.location.hash = "";
 	    }
 	});
     }
@@ -48,8 +49,35 @@ var wedding = (function () {
    }
 
    var launch_subscribe_dialog = function() {
+       // fire off the request to our webapp
+       request = $.ajax({
+           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name=Adam_web2&amp;comment=None",
+	   dataType: 'json'
+	   //            data: serializedData
+//           data: "name=Adam&comment=None"
+       });
        
-       
+       // Callback handler that will be called on success
+       request.done(function (response, textStatus, jqXHR){
+           // Log a message to the console
+           console.log("Hooray, it worked!");
+       });
+
+       // Callback handler that will be called on failure
+       request.fail(function (jqXHR, textStatus, errorThrown){
+           // Log the error to the console
+           console.error(
+               "The following error occurred: "+
+		   textStatus, errorThrown
+           );
+       });
+
+       // Callback handler that will be called regardless
+       // if the request failed or succeeded
+       request.always(function () {
+           // Reenable the inputs
+//           $inputs.prop("disabled", false);
+       });
    }
 
   // Explicitly reveal public pointers to the private functions 
@@ -69,9 +97,12 @@ var wedding = (function () {
 $( document ).ready(function() {
     wedding.setup_sticky_nav(); 
     wedding.work_around_broken_hashtags();
+    launchPhotoGallery();
 });
 
-// Photo Gallery
+// Photo Gallery from https://www.w3schools.com/howto/howto_js_lightbox.asp
+
+var slideIndex = 1;
 
 // Open the Modal
 function openModal() {
@@ -83,8 +114,9 @@ function closeModal() {
   document.getElementById('myModal').style.display = "none";
 }
 
-var slideIndex = 1;
-showSlides(slideIndex);
+function launchPhotoGallery() {
+    showSlides(slideIndex);
+}
 
 // Next/previous controls
 function plusSlides(n) {
