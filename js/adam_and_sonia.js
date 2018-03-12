@@ -1,6 +1,8 @@
 
 var wedding = (function () {
     
+ 
+
   var failing = function() {
     return 'You failed';
   };
@@ -11,9 +13,11 @@ var wedding = (function () {
 
    var setup_sticky_nav = function() {
         var scroll_offset = 40; // we've got some padding etc - make it not jump so much
+        var last_hash = "" // avoid spamming the hash when we have to resync it (since detatching the sitcky nav interupts showing a given anchor)
 	var $window = $(window),
 	$stickyEl = $('#nav-bar-sticky'),
 	elTop = $stickyEl.offset().top + scroll_offset;
+
 
 	$window.scroll(function() {
 	    if ($window.scrollTop() > elTop) {
@@ -21,13 +25,19 @@ var wedding = (function () {
 		    $stickyEl.addClass('sticky')
 		    // Reset the hash since we interrupted scrolling
                     var hash = window.location.hash;
-                    window.location.hash = "";
-                    window.location.hash = hash;
+		    if (hash != last_hash) {
+			window.location.hash = "";
+			window.location.hash = hash;
+			last_hash = hash;
+		    }
 		}
 		
 	    } else {
-		$stickyEl.removeClass('sticky')
-		window.location.hash = "";
+		if ( $stickyEl.hasClass('sticky')) {
+		    $stickyEl.removeClass('sticky')
+		    window.history.replaceState({}, "", "#");
+		    last_hash = "";
+		}
 	    }
 	});
     }
@@ -131,19 +141,15 @@ function currentSlide(n) {
 function showSlides(n) {
   var i;
   var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("demo");
+  var slideImages = document.getElementsByClassName("fullsize_image");
   var captionText = document.getElementById("caption");
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";
   }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
   slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
-  captionText.innerHTML = dots[slideIndex-1].alt;
+  captionText.innerHTML = slideImages[slideIndex-1].alt;
 }
 
 
