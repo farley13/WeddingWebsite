@@ -146,6 +146,8 @@ function openModal() {
 function closeModal() {
     document.getElementById('myModal').style.display = "none";
     modalOpen = false;
+    var $stickyEl = $('#nav-bar-sticky');
+    $stickyEl.addClass('sticky'); // show the overlay    
 }
 
 function launchPhotoGallery() {
