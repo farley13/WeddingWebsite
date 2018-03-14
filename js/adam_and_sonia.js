@@ -18,14 +18,13 @@ var wedding = (function () {
 	$stickyEl = $('#nav-bar-sticky'),
 	elTop = $stickyEl.offset().top + scroll_offset;
 
-
 	$window.scroll(function() {
-	    if ($window.scrollTop() > elTop) {
+	    if ($window.scrollTop() > elTop && !modalOpen) {
 		if (! $stickyEl.hasClass('sticky')) {
 		    $stickyEl.addClass('sticky')
 		    // Reset the hash since we interrupted scrolling
                     var hash = window.location.hash;
-		    if (hash != last_hash) {
+		    if (hash != last_hash && hash != '#') {
 			window.location.hash = "";
 			window.location.hash = hash;
 			last_hash = hash;
@@ -59,9 +58,28 @@ var wedding = (function () {
    }
 
    var launch_subscribe_dialog = function() {
+
+       var email=$("#email")[0].value; 
+       var emailEscaped = encodeURIComponent(email);
+
+       var firstName=$("#firstName")[0].value; 
+       var firstNameEscaped = encodeURIComponent(firstName);
+
+       var lastName=$("#lastName")[0].value; 
+       var lastNameEscaped = encodeURIComponent(lastName);
+
+       if (email === "" || firstName === "" || lastName === "")
+       {
+	   $("#subscribe_message").html("Error: Please fill out email, first and last name before submitting.");
+	   return;
+       }
+
+       $("#subscribe_message").html("Subscribing...")
+
        // fire off the request to our webapp
        request = $.ajax({
-           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name=Adam_web2&amp;comment=None",
+//           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&amp;comment=None&amp;firstName=Adam&amp;lastName=Farley",
+           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&comment=None&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
 	   dataType: 'json'
 	   //            data: serializedData
 //           data: "name=Adam&comment=None"
@@ -70,7 +88,7 @@ var wedding = (function () {
        // Callback handler that will be called on success
        request.done(function (response, textStatus, jqXHR){
            // Log a message to the console
-           console.log("Hooray, it worked!");
+           $("#subscribe_message").html("You have been subscribed! We will email you when there are updates or new information.")
        });
 
        // Callback handler that will be called on failure
@@ -80,6 +98,7 @@ var wedding = (function () {
                "The following error occurred: "+
 		   textStatus, errorThrown
            );
+	   $("#subscribe_message").html("Something didn't quite work this time. Please try again later!")
        });
 
        // Callback handler that will be called regardless
@@ -113,15 +132,20 @@ $( document ).ready(function() {
 // Photo Gallery from https://www.w3schools.com/howto/howto_js_lightbox.asp
 
 var slideIndex = 1;
+var modalOpen = false;
 
 // Open the Modal
 function openModal() {
-  document.getElementById('myModal').style.display = "block";
+    document.getElementById('myModal').style.display = "block";
+    var $stickyEl = $('#nav-bar-sticky');
+    $stickyEl.removeClass('sticky'); // hide the overlay    
+    modalOpen = true;
 }
 
 // Close the Modal
 function closeModal() {
-  document.getElementById('myModal').style.display = "none";
+    document.getElementById('myModal').style.display = "none";
+    modalOpen = false;
 }
 
 function launchPhotoGallery() {
@@ -149,7 +173,7 @@ function showSlides(n) {
     slides[i].style.display = "none";
   }
   slides[slideIndex-1].style.display = "block";
-  captionText.innerHTML = slideImages[slideIndex-1].alt;
+  // captionText.innerHTML = slideImages[slideIndex-1].alt;
 }
 
 

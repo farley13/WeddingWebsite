@@ -7,16 +7,42 @@ img.resizable {
     display: inline-block;
     height: auto;
     max-width: 100%;
+    padding-bottom:15px;
 }
 
 /*
   Basic styling
 */
 
+@font-face {
+    font-family: goudy_old_style_web;
+    src: url('fonts/goudy_old_style_regular.eot');
+    src: url('fonts/goudy_old_style_regular.ttf') format('opentype'),
+         url('fonts/goudy_old_style_regular.eot#iefix') format('embedded-opentype'),
+	 url('fonts/goudy_old_style_regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: goudy_old_style_web;
+    src: url('fonts/goudy_old_style_italic.eot');
+    src: url('fonts/goudy_old_style_italic.ttf') format('opentype'),
+         url('fonts/goudy_old_style_italic.eot#iefix') format('embedded-opentype'),
+	 url('fonts/goudy_old_style_italic.woff') format('woff');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: zapfino_web;
+    src: url('fonts/zapfino.eot');
+    src: url('fonts/zapfino.ttf') format('opentype'),
+         url('fonts/zapfino.eot#iefix') format('embedded-opentype'),
+	 url('fonts/zapfino.woff') format('woff');
+}
+
 body{
     background-color: white; 
     /* background-color: #f1efe3; */ /* offwhite */
-    font-family: "Goudy Old Style", serif;
+    font-family: goudy_old_style_web;
     font-size: large;
     padding: 100px;
 }
@@ -87,7 +113,7 @@ body{
 
 .body_text {
     padding: 50px;
-    padding-top: 10px;
+    padding-top: 0px;
 }
 
 .container-fluid {
@@ -121,18 +147,19 @@ body{
 */
 
 h1{
-    font-family: "Zapfino", cursive;
+    font-family: zapfino_web;
     line-height: 2;
 }
 
 h2{
-    font-family: "Zapfino", cursive;
+    font-family: zapfino_web;
     line-height: 2;
 }
 
 h3 {
-    font-family: "Zapfino", cursive; 
+    font-family: zapfino_web;
     line-height: 2;
+    margin-bottom: 20px;
 }
 
 #header_image {
@@ -168,6 +195,9 @@ h3 {
    }
 }
 
+.first_paragraph{
+    padding-top: 0px;
+}
 
 /* photo gallery */
 
@@ -192,7 +222,7 @@ h3 {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 10px;
   left: 0;
   top: 0;
   width: 100%;
@@ -215,11 +245,12 @@ h3 {
 .close {
   color: white;
   position: absolute;
-  top: 50px;
+  top: 10px;
   right: 25px;
   font-size: 70px;
   font-weight: bold;
   opacity: .4;
+  z-index: 3;
 }
 
 .close:hover,
@@ -301,10 +332,11 @@ img.hover-shadow {
 
 .thumbnail {
     width: 200px;
+    cursor: pointer;
 }
 .fullsize_image {
     max-width:100%;
-    max-height:800px;
+    max-height:700px;
     vertical-align: middle;
     margin: auto;
     display: block;

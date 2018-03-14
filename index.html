@@ -7,15 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Sonia Kohli and Adam Farley</title>    
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="js/webfont-1.5.10.js"></script>
+ 	<script>
+	  WebFont.load({
+	  custom: {
+	  families: ['zapfino_web', 'goudy_old_style_web']
+	  }
+	  });
+	</script>
 	<link rel="stylesheet" href="css/adam_and_sonia.css">
 	<script src="js/jquery-3.3.1.min.js" type="text/javascript" ></script>
 	<script src="js/adam_and_sonia.js" type="text/javascript" ></script>
-	<meta name="description" content="Adam Sonia University is an internal learning resource, containing over 30 Sonia specific lessons from the worlds largest travel website."/>
+	<meta name="description" content="Adam and Sonia will be getting married September 1 2018. Submit your email for updates."/>
 	<meta property="og:url"           content="http://www.tripadvisorseo.com" />
     <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="Adam Sonia University: Empowering our Sonia Culture" />
-    <meta property="og:description"   content="Adam And Sonia." />
+    <meta property="og:title"         content="Adam and Sonia" />
+    <meta property="og:description"   content="Adam and Sonia will be getting married September 1 2018. Submit your email for updates." />
     <meta property="og:image"         content="Unknown.jpg" />
     <link rel="canonical" href="http://www.adamandsonia.com" />
     <link rel="icon" 
@@ -41,7 +49,7 @@
 	<span>•&nbsp;<a href="#accommodations">Accommodations</a></span>
 	<span>•&nbsp;<a href="#things_to_do">Things to do and eat</a></span>
 	<span>•&nbsp;<a href="#photos">Photo gallery</a></span>
-	<span>•&nbsp;<a href="#subscribe" onclick="wedding.launch_subscribe_dialog(); return false;">Subscribe to updates</a></span> 
+	<span>•&nbsp;<a href="#subscribe">Subscribe to updates</a></span> 
       </div> 
     </div>
     
@@ -53,16 +61,25 @@
 <h3 class="text-center">Sonia Kohli and Adam Farley will be married September first, 2018</h3>
 
 
-<div id="details" class="anchor">.</div>
-<div id="details_section" class="row padding-large anchor-buffer">
+<div id="the_couple" class="anchor">.</div>
+<div id="the_couple_section" class="row padding-large anchor-buffer first_paragraph">
   <div class="col-sm-8 body_text">
     <p>Adam and Sonia first met in Boston after Sonia graduated from Boston College. Adam grew up in Boston and still has family in the area. After several years in Boston, Sonia began graduate school at Medical University of South Carolina. She enjoyed returning back to Charleston where she previously spent a portion of her childhood. During graduate school, Adam and Sonia greatly enjoyed exploring the food scene in Charleston. Adam proposed to Sonia the weekend of Sonia's graduation on the waterfront!</p> 
     <p>After Sonia graduated, they moved to North Carolina and now live in Durham. Sonia and Adam enjoy traveling down to Hilton Head to visit her family and her dog, Cotton. They also enjoy flying back up north to spend time with family in Boston and New York.</p>
+
   </div>
   <div class="col-sm-4">
-    <span><img class="resizable" src="images/EP17.jpg" alt="Adam University Magnifying Glass"></span>
+    <span><img class="resizable" src="images/EP17.jpg" alt="Adam and Sonia"></span>
   </div>
 </div>
+
+<br>
+<br>
+<br>
+<div class="text-center">
+  <img src="images/section_end.png" height="43px;">
+</div>
+
 
 <div id="location" class="anchor">.</div>
 <div id="location_section" class="row padding-large anchor-buffer">
@@ -111,7 +128,7 @@
     <span><img class="resizable" src="images/islanders-beach.jpg" alt="Adam University Monitor How Explanation"></span>
   </div>
   <div class="col-sm-8 body_text">
-    Hilton Head and the surounding area is a favorite vacation spot featuring many soft sand beaches, some of the highest concentration of golf courses in the nation, great tennis courts, and historic neighborhoods. 
+    Hilton Head and the surounding area is a favorite vacation spot featuring many soft sand beaches, some of the highest concentration of golf courses in the nation, great tennis courts, and historic neighborhoods. A list of attractions to check out:
     <br>
     <br>
     <ul>
@@ -128,7 +145,7 @@
 <div id="nearby_restaurants_section" class="row padding-large anchor-buffer">
   <h3>Nearby restaurants</h3>
   <div class="col-sm-4">
-    <span><img class="resizable" src="images/the_cottage_bluffton.jpeg"></span>
+    <span><img class="resizable" src="images/the_cottage_bluffton.jpg"></span>
   </div>
   <div class="col-sm-8 body_text">
     There are some great restaurants within minutes of the Colleton River Club and many just a short drive away. Some of our favorites include: 
@@ -232,20 +249,43 @@
   </div>
 </div>
 
-<div id="nearby_restaurants" class="anchor">.</div>
-<div id="nearby_restaurants_section" class="row padding-large anchor-buffer">
+<div id="subscribe" class="anchor">.</div>
+<div id="subscribe_section" class="row padding-large anchor-buffer">
   <h3>Updates</h3>
   <div class="col-sm-4">
-    <span><img class="resizable" src="images/the_cottage_bluffton.jpeg"></span>
+    <span><img class="resizable" src="images/desk-sm.jpeg"></span>
   </div>
   <div class="col-sm-8 body_text">
     If you'd like to subscribe to updates please provide your email address below:
     <br>
-    <br>
-    <form>
-      Email Address: <input type="text" name="email">
-      <button>Submit</button>
+    <form class="form-horizontal">
+      <div class="control-group">
+	<label class="control-label" for="email">Email Address:</label> 
+	<div class="controls">
+	  <input id="email" type="text" name="email">
+	</div>
+      </div>
+      <div class="control-group">
+	<label class="control-label" for="email">First Name:</label> 
+	<div class="controls">
+	  <input id="firstName" type="text" name="firstName">
+	</div>
+      </div>
+      <div class="control-group">
+	<label class="control-label" for="email">Last Name:</label> 
+	<div class="controls">
+	  <input id="lastName" type="text" name="lastName">
+	</div>
+      </div>
+      <br>
+      <div class="control-group">
+	<div class="controls">
+	  <button onclick="wedding.launch_subscribe_dialog(); return false;">Submit</button>
+	</div>
+      </div>
     </form>
+    <br>
+    <div id="subscribe_message"></div>
   </div>
 </div>
 
