@@ -80,7 +80,8 @@ var wedding = (function () {
        request = $.ajax({
 //           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&amp;comment=None&amp;firstName=Adam&amp;lastName=Farley",
            url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&comment=None&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
-	   dataType: 'json'
+	   dataType: 'json',
+	   async:false
 	   //            data: serializedData
 //           data: "name=Adam&comment=None"
        });
@@ -98,7 +99,12 @@ var wedding = (function () {
                "The following error occurred: "+
 		   textStatus, errorThrown
            );
-	   $("#subscribe_message").html("Something didn't quite work this time. Please try again later!")
+	   if (errorThrown != ""){
+	       $("#subscribe_message").html("Something didn't quite work this time. Please try again later!")
+	   }
+	   else { // if no one can tell us what the error was... maybe there wasn't any? Older Ipads have this issue
+	       $("#subscribe_message").html("You have been subscribed! We will email you when there are updates or new information.")
+	   }
        });
 
        // Callback handler that will be called regardless
@@ -127,6 +133,7 @@ $( document ).ready(function() {
     wedding.setup_sticky_nav(); 
     wedding.work_around_broken_hashtags();
     launchPhotoGallery();
+    $.ajaxSetup({ cache: false }); // or iPhones don't get fresh data
 });
 
 // Photo Gallery from https://www.w3schools.com/howto/howto_js_lightbox.asp
