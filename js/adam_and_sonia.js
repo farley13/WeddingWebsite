@@ -19,29 +19,35 @@ var wedding = (function () {
 	elTop = $stickyEl.offset().top + scroll_offset;
 
 	$window.scroll(function() {
-	    if ($window.scrollTop() > elTop && !modalOpen) {
-		if (! $stickyEl.hasClass('sticky')) {
-		    $stickyEl.addClass('sticky')
-		    // Reset the hash since we interrupted scrolling
-                    var hash = window.location.hash;
-		    if (hash != last_hash && hash != '#') {
-			window.location.hash = "";
-			window.location.hash = hash;
-			last_hash = hash;
-		    }
-		}
-		
-	    } else {
-		if ( $stickyEl.hasClass('sticky')) {
-		    $stickyEl.removeClass('sticky')
-		    window.history.replaceState({}, "", "#");
-		    last_hash = "";
-		}
-	    }
+	    toggle_sticky_based_on_scroll($window, $stickyEl, elTop, last_hash);
 	});
+       // fire immediately as well
+       toggle_sticky_based_on_scroll($window, $stickyEl, elTop, last_hash);
     }
 
-   var work_around_broken_hashtags = function() {
+    var toggle_sticky_based_on_scroll = function($window, $stickyEl, elTop, last_hash) {
+	if ($window.scrollTop() > elTop && !modalOpen) {
+	    if (! $stickyEl.hasClass('sticky')) {
+		$stickyEl.addClass('sticky')
+		// Reset the hash since we interrupted scrolling
+                var hash = window.location.hash;
+		if (hash != last_hash && hash != '#') {
+		    window.location.hash = "";
+		    window.location.hash = hash;
+		    last_hash = hash;
+		}
+	    }
+		
+	} else {
+	    if ( $stickyEl.hasClass('sticky')) {
+		$stickyEl.removeClass('sticky')
+		window.history.replaceState({}, "", "#");
+		last_hash = "";
+	    }
+	}	
+    }
+
+    var work_around_broken_hashtags = function() {
        var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
         if (window.location.hash && isChrome) {
             setTimeout(function () {
@@ -55,6 +61,23 @@ var wedding = (function () {
    var launch_photo_gallery = function() {
        
        
+   }
+
+   var bind_swiping = function() {
+
+       $("#myModal").swipe( {
+        //Generic swipe handler for all directions
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+	    if (direction === "left") {
+		plusSlides(1);		
+	    }
+	    else if (direction === "right") {
+		plusSlides(-1);	    
+	    }
+        },
+        //Default is 75px, set to 0 for demo so any distance triggers swipe
+           threshold:50
+      });
    }
 
    var launch_subscribe_dialog = function() {
@@ -80,8 +103,7 @@ var wedding = (function () {
        request = $.ajax({
 //           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&amp;comment=None&amp;firstName=Adam&amp;lastName=Farley",
            url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&comment=None&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
-	   dataType: 'json',
-	   async:false
+	   dataType: 'json'
 	   //            data: serializedData
 //           data: "name=Adam&comment=None"
        });
@@ -123,6 +145,7 @@ var wedding = (function () {
     work_around_broken_hashtags: work_around_broken_hashtags,
     launch_photo_gallery: launch_photo_gallery,
     launch_subscribe_dialog: launch_subscribe_dialog,
+    bind_swiping: bind_swiping,
     failing: failing
   }
 })();
@@ -132,6 +155,7 @@ var wedding = (function () {
 $( document ).ready(function() {
     wedding.setup_sticky_nav(); 
     wedding.work_around_broken_hashtags();
+    wedding.bind_swiping();
     launchPhotoGallery();
     $.ajaxSetup({ cache: false }); // or iPhones don't get fresh data
 });
@@ -179,8 +203,12 @@ function showSlides(n) {
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
+//      $(slides[i]).addClass("moveLeft");
+//      $(slides[i]).removeClass("showSlide");
     slides[i].style.display = "none";
   }
+  //  $(slides[slideIndex-1]).removeClass("moveLeft");
+    // $(slides[slideIndex-1]).addClass("showSlide");
   slides[slideIndex-1].style.display = "block";
   // captionText.innerHTML = slideImages[slideIndex-1].alt;
 }
