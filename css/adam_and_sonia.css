@@ -48,7 +48,7 @@ body{
     padding: 100px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 795px) {
     body {
 	padding: 30px;
     }
@@ -66,9 +66,9 @@ p {
     color: #dedede; 
     margin-left: auto;
     margin-right: auto;
-    padding-left: 10px;
+    padding-left: 20px;
     padding-bottom: 20px;
-    padding-right: 10px;
+    padding-right: 20px;
     padding-top: 20px;
     min-height: 70px;
     font-style: oblique;
@@ -84,6 +84,19 @@ p {
 
 .nav-bar a:hover {
   font-weight: bold; color: white;
+}
+
+@media only screen and (max-width: 550px) {
+    .nav-bar {
+	margin-left: -30px;
+	margin-right: -30px;
+	left: 0px;
+	right: 0px;
+    }
+}
+
+.breakIE {
+    display: inline-block;
 }
 
 /*
@@ -365,8 +378,7 @@ a:link.real_link, a:visited.real_link, a:active.real_link {
   margin-top: -50px;
   color: white;
   font-weight: bold;
-  font-size: 55px;
-  transition: 0.6s ease;
+  font-size: 65px;
   border-radius: 0 3px 3px 0;
   user-select: none;
   -webkit-user-select: none;
@@ -379,6 +391,25 @@ a:link.real_link, a:visited.real_link, a:active.real_link {
 	top: 250px;
     }
 }
+
+@media only screen and (max-width: 400px) {
+    .prev,
+    .next {
+	top: 200px;
+    }
+}
+
+@media only screen and (max-height: 400px) {
+    .prev,
+    .next {
+	top: 200px;
+    }
+
+    .fullsize_image {
+	max-height:400px; 
+    }
+}
+
 
 /* Position the "next button" to the right */
 .next {
@@ -421,7 +452,7 @@ img.demo {
 }
 
 img.hover-shadow {
-  transition: 0.3s
+/*  transition: 0.3s */
 }
 
 .hover-shadow:hover {
@@ -447,4 +478,10 @@ img.resizable.thumbnail_nail {
     vertical-align: middle;
     margin: auto;
     display: block;
+}
+
+@media only screen and (max-height: 400px) {
+    .fullsize_image {
+	max-height:400px; 
+    }
 }
