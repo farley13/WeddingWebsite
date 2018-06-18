@@ -229,6 +229,10 @@ h3 {
    }
 }
 
+#chetMillerPic {
+    max-height: 200px;
+}
+
 .first_paragraph{
     padding-top: 0px;
 }
