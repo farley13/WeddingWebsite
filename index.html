@@ -21,7 +21,7 @@
 	<script src="js/jquery.touchSwipe.min.js" type="text/javascript" ></script>
 	<script src="js/adam_and_sonia.js" type="text/javascript" ></script>
 	<meta name="description" content="Adam and Sonia will be getting married September 1 2018. Submit your email for updates."/>
-	<meta property="og:url"           content="http://www.tripadvisorseo.com" />
+	<meta property="og:url"           content="http://www.adamandsonia.com" />
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="Adam and Sonia" />
     <meta property="og:description"   content="Adam and Sonia will be getting married September 1 2018. Submit your email for updates." />
@@ -50,7 +50,7 @@
 	<span class="breakIE">•&nbsp;<a href="#things_to_do">Things&nbsp;to&nbsp;do&nbsp;and&nbsp;eat</a></span>
 	<span class="breakIE">•&nbsp;<a href="#photos">Photo&nbsp;gallery</a></span>
 	<span class="breakIE">•&nbsp;<a href="#registry">Registry</a></span> 
-	<span class="breakIE">•&nbsp;<a href="#subscribe">Subscribe&nbsp;to&nbsp;updates</a></span> 
+	<span class="breakIE">•&nbsp;<a href="#rsvp">RSVP</a></span> 
       </div> 
     </div>
     
@@ -346,22 +346,16 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
 </div>
 
 
-<div id="subscribe" class="anchor">.</div>
-<div id="subscribe_section" class="row padding-large anchor-buffer">
-  <h3>Updates</h3>
+<div id="rsvp" class="anchor">.</div>
+<div id="rsvp_section" class="row padding-large anchor-buffer">
+  <h3>RSVP</h3>
   <div class="col-sm-4">
-    <span><img class="resizable" src="images/desk-sm.jpeg"></span>
+    <span><img class="resizable" src="images/goldmap-pen.jpg"></span>
   </div>
   <div class="col-sm-8 body_text">
-    If you'd like to subscribe to updates please provide your email address below:
+    To RSVP please enter your first and last name below:
     <br>
-    <form class="form-horizontal" onsubmit="return false;">
-      <div class="control-group">
-	<label class="control-label" for="email">Email Address:</label> 
-	<div class="controls">
-	  <input id="email" type="text" name="email">
-	</div>
-      </div>
+    <form class="form" onsubmit="return false;">
       <div class="control-group">
 	<label class="control-label" for="email">First Name:</label> 
 	<div class="controls">
@@ -377,12 +371,153 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
       <br>
       <div class="control-group">
 	<div class="controls">
-	  <button onclick="wedding.launch_subscribe_dialog(); return false;">Submit</button>
+	  <button onclick="wedding.search_for_rsvp(); return false;">Search</button>
 	</div>
       </div>
+      <br>
+      <div class="form-group col-sm-12" id="search_message"></div>
+      <br>
+
+      <div id="weddingPartyArea"></div>
+
+      <div style="display:none" id="foodOptionsAdultTemplate">
+	    <div class="form-group col-sm-3">
+	      <label for="inputAddress">First<br>Course</label>
+	      <select class="form-control" id="inputFirstCourse">
+	      <option> Poached pear with honey + nutmeg served with marscapone, candied walnuts and arugula (Vegetarian)</option>
+	      <option>Jumbo Crabcakes with sweet corn cream</option>
+	      </select>
+	    </div>
+	    <div class="form-group col-sm-3">
+	      <label for="inputAddress2">Main<br>Course</label>
+	      <select class="form-control" id="inputMainCourse">
+	      <option>Wild mushroom ravioli with fresh basil, summer squash, steamed chard and robiola in a lemon cream sauce with grated parm (Vegetarian)</option>
+	      <option>Fennel topped grouper, fennel hearts, brussel sprouts roasted with olives and parm with white wine sauce</option>
+	      <option>Vidalia crusted beef mignon topped with herbed butter and pear chutney with truffle whipped potato, wild mushrooms, asparagus</option>
+	      </select>
+	    </div>
+	    <div class="form-group col-sm-12">
+	      <label for="inputAddress2">Dietary<br>Restrictions</label>
+	      <input type="text" class="form-control" id="inputDietaryRestrictions" placeholder="eg. Vegan, Allergic to cinnamon">
+	    </div>
+      </div>
+
+      <div style="display:none" id="foodOptionsChildTemplate">
+	    <div class="form-group col-sm-3">
+	      <label for="inputAddress2">Main<br>Course</label>
+	      <select class="form-control" id="inputMainCourse">
+	      <option>Pasta with fresh vegitables topped with parmesan (Vegetarian)</option>
+	      </select>
+	    </div>
+	    <div class="form-group col-sm-12">
+	      <label for="inputAddress2">Dietary<br>Restrictions</label>
+	      <input type="text" class="form-control" id="inputAddress2" placeholder="eg. Vegan, Allergic to cinnamon">
+	    </div>
+      </div>
+
+
+      <div style="display:none" id="bothDaysTemplate">
+	<div class="control-group">
+	  <div class="form-row">
+	    <div class="form-group col-sm-12">
+	      <label id="attendeeLabel" for="inputEmail4">Attendee 1</label>
+	      <input readonly type="text" class="form-control" id="inputName" placeholder="Enter Firstname Lastname if applicable">
+	    </div>
+	  </div>
+	  <div class="form-row">
+	    <div class="form-group col-sm-3">
+	      <label for="inputEmail4">Attending<br>Friday</label>
+	      <select type="email" class="form-control" id="attendingFridayInput" placeholder="Email">
+		<option>I will attend</option>
+		<option>I will not attend</option>
+	      </select>
+	    </div>
+	    <div class="form-group col-sm-3">
+	      <label for="inputPassword4">Attending<br>Saturday</label>
+	      <select type="email" class="form-control" id="attendingSaturdayInput" placeholder="Email">
+		<option>I will attend</option>
+		<option>I will not attend</option>
+	      </select>
+	    </div>
+	    <div id="foodOptions"></div>
+	  </div> <!-- end form-row -->
+	</div>
+	<br>
+      </div>
+
+
+      <div style="display:none" id="saturdayOnlyTemplate">
+	<div class="control-group">
+	  <div class="form-row">
+	    <div class="form-group col-sm-12">
+	      <label for="inputEmail4">Attendee 1</label>
+	      <input readonly type="text" class="form-control" id="inputName" placeholder="Adam Farley">
+	    </div>
+	  </div>
+	  <div class="form-row">
+	    <div class="form-group col-sm-3">
+	      <label for="inputPassword4">Attending<br>Wedding</label>
+	      <select type="email" class="form-control" id="inputEmail4" placeholder="Email">
+		<option>I will attend</option>
+		<option>I will not attend</option>
+	      </select>
+	    </div>
+	    <div id="foodOptions"></div>
+	  </div> <!-- end form-row -->
+	</div>
+	<br>
+      </div>
+
+      <div style="display:none" id="fridayOnlyTemplate">
+	<div class="control-group">
+	  <div class="form-row">
+	    <div class="form-group col-sm-12">
+	      <label for="inputEmail4">Attendee 1</label>
+	      <input readonly type="text" class="form-control" id="inputName" placeholder="Adam Farley">
+	    </div>
+	  </div>
+	  <div class="form-row">
+	    <div class="form-group col-sm-3">
+	      <label for="inputEmail4">Attending<br>Ceremony</label>
+	      <select type="email" class="form-control" id="inputEmail4" placeholder="Email">
+		<option>I will attend</option>
+		<option>I will not attend</option>
+	      </select>
+	    </div>
+	    <div id="foodOptions"></div>
+	  </div> <!-- end form-row -->
+	</div>
+	<br>
+      </div>
+      <br>
+      <br>
+      <div style="display:none" id="emailAndMessage">
+	<div class="control-group">
+	  <div class="form-row">
+	    <div class="form-group col-sm-12">
+	      <label for="inputEmail4">Email</label>
+	      <input  type="email" class="form-control" id="inputEmailAddress" placeholder="name@place.com">
+	    </div>
+	  </div>
+	  <div class="form-row">
+	    <div class="form-group col-sm-12">
+	      <label for="inputAddress2">Message for the couple:</label>
+	      <textarea rows="2" class="form-control" id="inputMessage" placeholder=""></textarea>
+	    </div>
+	    <div class="form-group col-sm-12">
+	      <div class="controls">
+		<button onclick="wedding.update_rsvp(); return false;">Update</button>
+	      </div>
+	    </div> 
+	    <div class="form-group col-sm-12" id="submit_message"></div>
+	    <br>
+	  </div> <!-- end form-row -->
+	</div>
+	<br>
+      </div>
+      
+      
     </form>
-    <br>
-    <div id="subscribe_message"></div>
   </div>
 </div>
 
