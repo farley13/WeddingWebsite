@@ -80,63 +80,6 @@ var wedding = (function () {
       });
    }
 
-   var launch_subscribe_dialog = function() {
-
-       var email=$("#email")[0].value; 
-       var emailEscaped = encodeURIComponent(email);
-
-       var firstName=$("#firstName")[0].value; 
-       var firstNameEscaped = encodeURIComponent(firstName);
-
-       var lastName=$("#lastName")[0].value; 
-       var lastNameEscaped = encodeURIComponent(lastName);
-
-       if (email === "" || firstName === "" || lastName === "")
-       {
-	   $("#subscribe_message").html("Error: Please fill out email, first and last name before submitting.");
-	   return;
-       }
-
-       $("#subscribe_message").html("Subscribing...")
-
-       // fire off the request to our webapp
-       request = $.ajax({
-//           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&amp;comment=None&amp;firstName=Adam&amp;lastName=Farley",
-           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&comment=None&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
-	   dataType: 'json'
-	   //            data: serializedData
-//           data: "name=Adam&comment=None"
-       });
-       
-       // Callback handler that will be called on success
-       request.done(function (response, textStatus, jqXHR){
-           // Log a message to the console
-           $("#subscribe_message").html("You have been subscribed! We will email you when there are updates or new information.")
-       });
-
-       // Callback handler that will be called on failure
-       request.fail(function (jqXHR, textStatus, errorThrown){
-           // Log the error to the console
-           console.error(
-               "The following error occurred: "+
-		   textStatus, errorThrown
-           );
-	   if (errorThrown != ""){
-	       $("#subscribe_message").html("Something didn't quite work this time. Please try again later!")
-	   }
-	   else { // if no one can tell us what the error was... maybe there wasn't any? Older Ipads have this issue
-	       $("#subscribe_message").html("You have been subscribed! We will email you when there are updates or new information.")
-	   }
-       });
-
-       // Callback handler that will be called regardless
-       // if the request failed or succeeded
-       request.always(function () {
-           // Reenable the inputs
-//           $inputs.prop("disabled", false);
-       });
-   }
-
    var search_for_rsvp = function() {
 
        var firstName=$("#firstName")[0].value; 
@@ -154,20 +97,6 @@ var wedding = (function () {
        $("#search_message").html("Searching for RSVP...")
        $("#weddingPartyArea").html("");
        $("#emailAndMessage").attr("style", "display:none");
-
-       // fire off the request to our webapp
-//       request = $.ajax({
-//           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?isRSVPQuery=true&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
-//	   dataType: 'json'
-//       });
-       
-       // Callback handler that will be called on success
-//       request.done(function (response, textStatus, jqXHR){
-	   
-
-       
-
-//	   $("#search_message").html("It looks like your browser may be a bit out of date. You many try using a newer computer or reach out to Adam and Sonia for help!")
 
        var url = "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec";
        var data =  { parameter: { isRSVPQuery: true, firstName: firstNameEscaped, lastName: lastNameEscaped } };
@@ -200,6 +129,8 @@ var wedding = (function () {
 		   var name = row.firstName + " " + row.lastName;
 		   $(templateClone).find("#inputName").val(name);
 	       }
+	       $(templateClone).find("#inputHiddenFirstName").val(row.firstName);
+	       $(templateClone).find("#inputHiddenLastName").val(row.lastName);
 
 	       $(templateClone).find("#attendeeLabel").html("Attendee " + (Number(i) + 1));
 
@@ -248,47 +179,20 @@ var wedding = (function () {
 	   
        },
 
-		function(result) {
-	       $("#search_message").html("Something didn't quite work this time. Please try again later!")
-		});
-
-       // Callback handler that will be called on failure
-/*
-
-       request.fail(function (jqXHR, textStatus, errorThrown){
-           // Log the error to the console
-           console.error(
-               "The following error occurred: "+
-		   textStatus, errorThrown
-           );
-	   if (errorThrown != ""){
-	       $("#search_message").html("Something didn't quite work this time. Please try again later!")
-	   }
-	   else { // if no one can tell us what the error was... maybe there wasn't any? Older Ipads have this issue
-	       $("#search_message").html("It looks like your browser may be a bit out of date. You many try using a newer computer or reach out to Adam and Sonia for help!")
-	   }
-       }); */
-
-       // Callback handler that will be called regardless
-       // if the request failed or succeeded
-//       request.always(function () {
-           // Reenable the inputs
-//           $inputs.prop("disabled", false);
-//       });
+	function(result) {
+	    $("#search_message").html("Something didn't quite work this time. Please try again later!")
+	});
    }
 
    var update_rsvp = function() {
 
        var email=$("#inputEmailAddress").val(); 
-       var emailEscaped = encodeURIComponent(email);
 
        var firstName=$("#firstName").val(); 
-       var firstNameEscaped = encodeURIComponent(firstName);
 
        var lastName=$("#lastName").val(); 
-       var lastNameEscaped = encodeURIComponent(lastName);
 
-       
+       var message=$("#inputMessage").val(); 
 
        if (email === "" || firstName === "" || lastName === "")
        {
@@ -297,10 +201,34 @@ var wedding = (function () {
        }
 
        $("#submit_message").html("Updating...");
+       
 
-       var serializedData = { parameter: { isRSVPUpdate: true, message:'Love!!!', email: 'Adam@thing.com', firstName: 'Adam', lastName: 'Farley' },
-           guests: [ { firstName: 'Adam', lastName: 'Farley', attendingFriday: '1', attendingSaturday: '1', firstCourse: 'Thing1', mainCourse:  'Thing2'  },
-                                 { firstName: 'Sonia', lastName: 'Kohli', attendingFriday: '0', attendingSaturday: '1', firstCourse: 'Thing1', mainCourse:  'Thing2', dietaryRestrictions: 'No Fish!' }] };
+       var guestRows = []
+
+       for (i = 0; i < 20; i++){
+	   var guestSection = $("#guest_" + Number(i));
+	   var guestRow = {}
+	   if (guestSection.length > 0) {
+	       guestRow["additionalGuestName"] = $(guestSection).find("#inputName").val();
+	       guestRow["firstName"] = $(guestSection).find("#inputHiddenFirstName").val();
+	       guestRow["lastName"] = $(guestSection).find("#inputHiddenLastName").val();
+	       guestRow["attendingFriday"] = $(guestSection).find("#attendingFridayInput").val() == "I will attend" ? 1 : 0;
+	       guestRow["attendingSaturday"] = $(guestSection).find("#attendingSaturdayInput").val() == "I will attend" ? 1 : 0;
+	       guestRow["firstCourse"] = $(guestSection).find("#inputFirstCourse").val();
+	       guestRow["mainCourse"] = $(guestSection).find("#inputMainCourse").val();
+	       guestRow["dietaryRestrictions"] = $(guestSection).find("#inputDietaryRestrictions").val();
+	       guestRows.push(guestRow);
+	   }
+       }
+
+       var serializedData = { 
+	   parameter: { isRSVPUpdate: true, 
+			message:message, 
+			email: email, 
+			firstName: firstName, 
+			lastName: lastName },
+	   guests: guestRows
+       };
 
        // fire off the request to our webapp
        var url = "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec";
@@ -308,10 +236,15 @@ var wedding = (function () {
 
        ajaxPost(url, data, 
 		function(result) {
-		    $("#submit_message").html("Thank you for your RSVP!");
+		    if (result.result != "success") {
+			$("#submit_message").html("Something went wrong, please try again or reach out to Adam and Sonia for help!");
+		    }
+		    else {
+			$("#submit_message").html("Thank you for your RSVP!");
+		    }
 		},
 		function(result) {
-		    $("#submit_message").html("Something went wrong, please try again!");
+		    $("#submit_message").html("Something went wrong, please try again or reach out to Adam and Sonia for help!");
 		}
 	       );
        
@@ -392,7 +325,6 @@ var wedding = (function () {
     setup_sticky_nav: setup_sticky_nav,
     work_around_broken_hashtags: work_around_broken_hashtags,
     launch_photo_gallery: launch_photo_gallery,
-    launch_subscribe_dialog: launch_subscribe_dialog,
     search_for_rsvp: search_for_rsvp,
     update_rsvp: update_rsvp,
     bind_swiping: bind_swiping,
