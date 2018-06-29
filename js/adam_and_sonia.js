@@ -156,16 +156,24 @@ var wedding = (function () {
        $("#emailAndMessage").attr("style", "display:none");
 
        // fire off the request to our webapp
-       request = $.ajax({
-           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?isRSVPQuery=true&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
-	   dataType: 'json'
-       });
+//       request = $.ajax({
+//           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?isRSVPQuery=true&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
+//	   dataType: 'json'
+//       });
        
        // Callback handler that will be called on success
-       request.done(function (response, textStatus, jqXHR){
+//       request.done(function (response, textStatus, jqXHR){
 	   
 
+       
+
 //	   $("#search_message").html("It looks like your browser may be a bit out of date. You many try using a newer computer or reach out to Adam and Sonia for help!")
+
+       var url = "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec";
+       var data =  { parameter: { isRSVPQuery: true, firstName: firstNameEscaped, lastName: lastNameEscaped } };
+
+       ajaxPost(url, JSON.stringify(data), 
+		function(response) {
 
 	   $("#weddingPartyArea").html(""); // make sure if we finish multiple times, only one is present on page
 	   var message = "Your wedding party is provided below: ";
@@ -238,9 +246,15 @@ var wedding = (function () {
 	   $("#search_message").html(message);
 	   
 	   
-       });
+       },
+
+		function(result) {
+	       $("#search_message").html("Something didn't quite work this time. Please try again later!")
+		});
 
        // Callback handler that will be called on failure
+/*
+
        request.fail(function (jqXHR, textStatus, errorThrown){
            // Log the error to the console
            console.error(
@@ -253,26 +267,28 @@ var wedding = (function () {
 	   else { // if no one can tell us what the error was... maybe there wasn't any? Older Ipads have this issue
 	       $("#search_message").html("It looks like your browser may be a bit out of date. You many try using a newer computer or reach out to Adam and Sonia for help!")
 	   }
-       });
+       }); */
 
        // Callback handler that will be called regardless
        // if the request failed or succeeded
-       request.always(function () {
+//       request.always(function () {
            // Reenable the inputs
 //           $inputs.prop("disabled", false);
-       });
+//       });
    }
 
    var update_rsvp = function() {
 
-       var email=$("#email")[0].value; 
+       var email=$("#inputEmailAddress").val(); 
        var emailEscaped = encodeURIComponent(email);
 
-       var firstName=$("#firstName")[0].value; 
+       var firstName=$("#firstName").val(); 
        var firstNameEscaped = encodeURIComponent(firstName);
 
-       var lastName=$("#lastName")[0].value; 
+       var lastName=$("#lastName").val(); 
        var lastNameEscaped = encodeURIComponent(lastName);
+
+       
 
        if (email === "" || firstName === "" || lastName === "")
        {
@@ -280,21 +296,40 @@ var wedding = (function () {
 	   return;
        }
 
-       $("#subscribe_message").html("Subscribing...")
+       $("#submit_message").html("Updating...");
+
+       var serializedData = { parameter: { isRSVPUpdate: true, message:'Love!!!', email: 'Adam@thing.com', firstName: 'Adam', lastName: 'Farley' },
+           guests: [ { firstName: 'Adam', lastName: 'Farley', attendingFriday: '1', attendingSaturday: '1', firstCourse: 'Thing1', mainCourse:  'Thing2'  },
+                                 { firstName: 'Sonia', lastName: 'Kohli', attendingFriday: '0', attendingSaturday: '1', firstCourse: 'Thing1', mainCourse:  'Thing2', dietaryRestrictions: 'No Fish!' }] };
 
        // fire off the request to our webapp
-       request = $.ajax({
-//           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&amp;comment=None&amp;firstName=Adam&amp;lastName=Farley",
-           url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec?name="+ emailEscaped +"&comment=None&firstName="+firstNameEscaped+"&lastName="+lastNameEscaped,
-	   dataType: 'json'
-	   //            data: serializedData
+       var url = "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec";
+       var data = JSON.stringify(serializedData);
+
+       ajaxPost(url, data, 
+		function(result) {
+		    $("#submit_message").html("Thank you for your RSVP!");
+		},
+		function(result) {
+		    $("#submit_message").html("Something went wrong, please try again!");
+		}
+	       );
+       
+
+/*       request = $.ajax({
+           type: "POST",
+	   url: "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec",
+	   data: JSON.stringify(serializedData),
+	   dataType: 'text',
+	   contentType: 'text/plain'
+	   
 //           data: "name=Adam&comment=None"
-       });
+       }); 
        
        // Callback handler that will be called on success
        request.done(function (response, textStatus, jqXHR){
            // Log a message to the console
-           $("#subscribe_message").html("You have been subscribed! We will email you when there are updates or new information.")
+           $("#submit_message").html("Thank you for your RSVP!")
        });
 
        // Callback handler that will be called on failure
@@ -305,10 +340,10 @@ var wedding = (function () {
 		   textStatus, errorThrown
            );
 	   if (errorThrown != ""){
-	       $("#subscribe_message").html("Something didn't quite work this time. Please try again later!")
+	       $("#submit_message").html("Something didn't quite work this time. Please try again later!")
 	   }
 	   else { // if no one can tell us what the error was... maybe there wasn't any? Older Ipads have this issue
-	       $("#subscribe_message").html("You have been subscribed! We will email you when there are updates or new information.")
+	       $("#submit_message").html("You have been subscribed! We will email you when there are updates or new information.")
 	   }
        });
 
@@ -317,8 +352,37 @@ var wedding = (function () {
        request.always(function () {
            // Reenable the inputs
 //           $inputs.prop("disabled", false);
-       });
+       });*/
    }
+    
+    var ajaxPost = function(url, data, successCallback, failureCallback) {
+	// raw XHR 
+	var xmlhttp = new XMLHttpRequest();
+	
+	xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+		if (xmlhttp.status == 200) {
+		    successCallback(JSON.parse(xmlhttp.responseText));
+		}
+		else if (xmlhttp.status == 400) {
+		               console.error(
+				   "The following error occurred: " + xmlhttp);
+		    failureCallback();
+		}
+		else {
+		               console.error(
+				   "The following error occurred: " + xmlhttp);
+		    failureCallback();
+		}
+            }
+	};
+
+    xmlhttp.open("POST", url, true);
+    xmlhttp.send(data);
+	 
+	
+
+    }
 
 
   // Explicitly reveal public pointers to the private functions 
