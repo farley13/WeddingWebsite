@@ -25,7 +25,7 @@
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="Adam and Sonia" />
     <meta property="og:description"   content="Adam and Sonia will be getting married September 1 2018. Submit your email for updates." />
-    <meta property="og:image"         content="Unknown.jpg" />
+    <meta property="og:image"         content="images/EP22.jpg" />
     <link rel="canonical" href="http://www.adamandsonia.com" />
     <link rel="icon" 
       type="image/ico" 
@@ -374,24 +374,27 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
 	  <button onclick="wedding.search_for_rsvp(); return false;">Search</button>
 	</div>
       </div>
-      <br>
-      <div class="form-group col-sm-12" id="search_message"></div>
-      <br>
+      <br>  
+      <div class="control-group">
+	<div class="controls">
+	  <div class="updateMessage" id="search_message"></div>
+	</div>
+      </div>
 
       <div id="weddingPartyArea"></div>
 
       <div style="display:none" id="foodOptionsAdultTemplate">
-	    <div class="form-group col-sm-3">
+	    <div class="form-group col-sm-6">
 	      <label for="inputAddress">First<br>Course</label>
 	      <select class="form-control" id="inputFirstCourse">
-	      <option>Spice Poached pear, Arugula, Candied Walnuts & Red Lettuces Pear-Mascarpone Vinaigrette (Vegetarian)</option>
+	      <option>Spice Poached Pear, Arugula, Candied Walnuts & Red Lettuces Pear-Mascarpone Vinaigrette (Vegetarian)</option>
 	      <option>Jumbo Crabcakes with sweet corn cream</option>
 	      </select>
 	    </div>
-	    <div class="form-group col-sm-3">
+	    <div class="form-group col-sm-6">
 	      <label for="inputAddress2">Main<br>Course</label>
 	      <select class="form-control" id="inputMainCourse">
-	      <option>Mushroom Ravioli Tossed with Summer Squash, Card, Basil & Parmesan Meyer Lemon Cream Sauce (Vegetarian)</option>
+	      <option>Mushroom Ravioli Tossed with Summer Squash, Basil & Parmesan Meyer Lemon Cream Sauce (Vegetarian)</option>
 	      <option>Fennel Dusted Grouper, Parmesan Roasted Brussels, Leek Puree & Fennel Salad Fennel Buerre Blanc</option>
 	      <option>Seared Beef Medallion with Pear Chutney Truffle Whipped Potato, Wild Mushrooms & Asparagus Demi-Glace</option>
 	      </select>
@@ -406,7 +409,7 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
 	    <div class="form-group col-sm-3">
 	      <label for="inputAddress2">Main<br>Course</label>
 	      <select class="form-control" id="inputMainCourse">
-	      <option>Children's menu (Vegetarian)</option>
+	      <option>Children's menu</option>
 	      </select>
 	    </div>
 	    <div class="form-group col-sm-12">
@@ -416,51 +419,50 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
       </div>
 
 
-      <div style="display:none" id="bothDaysTemplate">
+      <div style="display:none" id="bothDaysTemplate" class="guest">
 	<div class="control-group">
 	  <div class="form-row">
-	    <div class="form-group col-sm-12">
-	      <label id="attendeeLabel" for="inputEmail4">Attendee 1</label>
-	      <input readonly type="text" class="form-control" id="inputName" placeholder="Enter Firstname Lastname if applicable">
+	      <label style="display:none" id="attendeeLabel" for="inputEmail4">Attendee 1</label>
+	      <div class="rsvp_name" id="nameReadonly"></div>
+	      <input style="display:none" readonly type="text" class="form-control rsvp_name" id="inputName" placeholder="">
 	      <input style="display:none" readonly type="text" class="form-control" id="inputHiddenFirstName" placeholder="">
 	      <input style="display:none" readonly type="text" class="form-control" id="inputHiddenLastName" placeholder="">
-	    </div>
 	  </div>
 	  <div class="form-row">
-	    <div class="form-group col-sm-3">
+	    <div class="form-group col-sm-6">
 	      <label for="inputEmail4">Attending<br>Friday</label>
 	      <select type="email" class="form-control" id="attendingFridayInput" placeholder="Email">
 		<option>I am delighted to attend</option>
 		<option>I regretfully decline</option>
 	      </select>
 	    </div>
-	    <div class="form-group col-sm-3">
+	    <div class="form-group col-sm-6">
 	      <label for="inputPassword4">Attending<br>Saturday</label>
 	      <select type="email" class="form-control" id="attendingSaturdayInput" placeholder="Email">
 		<option>I am delighted to attend</option>
 		<option>I regretfully decline</option>
 	      </select>
 	    </div>
-	    <div id="foodOptions"></div>
+	      <label for="inputPassword4">We have several menu options for Saturday:</label>
+	    <div id="foodOptions">
+	    </div>
 	  </div> <!-- end form-row -->
 	</div>
 	<br>
       </div>
 
 
-      <div style="display:none" id="saturdayOnlyTemplate">
+      <div class="guest" style="display:none" id="saturdayOnlyTemplate">
 	<div class="control-group">
 	  <div class="form-row">
-	    <div class="form-group col-sm-12">
-	      <label id="attendeeLabel" for="inputEmail4">Attendee 1</label>
-	      <input readonly type="text" class="form-control" id="inputName" placeholder="">
+	      <label style="display:none" id="attendeeLabel" for="inputEmail4">Attendee 1</label>
+	      <div class="rsvp_name" id="nameReadonly"></div>
+	      <input style="display:none" readonly type="text" class="form-control rsvp_name" id="inputName" placeholder="">
 	      <input style="display:none" readonly type="text" class="form-control" id="inputHiddenFirstName" placeholder="">
 	      <input style="display:none" readonly type="text" class="form-control" id="inputHiddenLastName" placeholder="">
-
-	    </div>
 	  </div>
 	  <div class="form-row">
-	    <div class="form-group col-sm-3">
+	    <div class="form-group col-sm-12">
 	      <label for="inputPassword4">Attending<br>Wedding</label>
 	      <select type="email" class="form-control" id="attendingSaturdayInput" placeholder="Email">
 		<option>I am delighted to attend</option>
@@ -473,18 +475,17 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
 	<br>
       </div>
 
-      <div style="display:none" id="fridayOnlyTemplate">
+      <div class="guest" style="display:none" id="fridayOnlyTemplate">
 	<div class="control-group">
 	  <div class="form-row">
-	    <div class="form-group col-sm-12">
-	      <label id="attendeeLabel" for="inputEmail4">Attendee 1</label>
-	      <input readonly type="text" class="form-control" id="inputName" placeholder="Adam Farley">
+	      <label style="display:none" id="attendeeLabel" for="inputEmail4">Attendee 1</label>
+	      <div class="rsvp_name" id="nameReadonly"></div>
+	      <input style="display:none" readonly type="text" class="form-control rsvp_name" id="inputName" placeholder="">
 	      <input style="display:none" readonly type="text" class="form-control" id="inputHiddenFirstName" placeholder="">
 	      <input style="display:none" readonly type="text" class="form-control" id="inputHiddenLastName" placeholder="">
-	    </div>
 	  </div>
 	  <div class="form-row">
-	    <div class="form-group col-sm-3">
+	    <div class="form-group col-sm-12">
 	      <label for="inputEmail4">Attending<br>Ceremony</label>
 	      <select type="email" class="form-control" id="attendingFridayInput" placeholder="Email">
 		<option>I am delighted to attend</option>
@@ -496,7 +497,6 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
 	</div>
 	<br>
       </div>
-      <br>
       <br>
       <div style="display:none" id="emailAndMessage">
 	<div class="control-group">
@@ -513,10 +513,10 @@ Please visit the registry <a class="real_link" target="_blank" href="https://www
 	    </div>
 	    <div class="form-group col-sm-12">
 	      <div class="controls">
-		<button onclick="wedding.update_rsvp(); return false;">Update</button>
+		<button id="updateButton" onclick="wedding.update_rsvp(); return false;">Update</button>
 	      </div>
 	    </div> 
-	    <div class="form-group col-sm-12" id="submit_message"></div>
+	    <div class="form-group col-sm-12 updateMessage" id="submit_message"></div>
 	    <br>
 	  </div> <!-- end form-row -->
 	  <div style="display:none" id="JSONPDiv"></div>

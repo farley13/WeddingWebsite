@@ -492,6 +492,35 @@ img.resizable.thumbnail_nail {
 
 /* RSVP section */
 
-#inputName.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-    background-color: #fbfbfb;
+.rsvp_name[disabled], .rsvp_name[readonly], .rsvp_name {
+    padding: 6px;
+    /* padding-left: 40px; */
+    text-align: center;
+    font-size: 23px;
+    color: white;
+    background-color: #070b53; /* dark navy */    
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.guest {
+    margin-top: 50px;
+    overflow: auto;
+}
+
+#updateButton{
+    margin-top:20px;
+}
+
+#submit_message {
+    margin-top:15px;
+}
+
+.updateMessage {
+    font-style: italic;
+    font-weight: bold;
+}
+
+
+
 }

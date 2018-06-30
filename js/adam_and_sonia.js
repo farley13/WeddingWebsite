@@ -137,10 +137,13 @@ var wedding = (function () {
 	       if(row.unknownName == "1") {
 		   $(templateClone).find("#inputName").attr("readonly", false);
 		   $(templateClone).find("#inputName").val("");
+		   $(templateClone).find("#inputName").attr("style", "");
+		   $(templateClone).find("#nameReadonly").attr("style", "display:none");
 	       }
 	       else {
 		   var name = row.firstName + " " + row.lastName;
 		   $(templateClone).find("#inputName").val(name);
+		   $(templateClone).find("#nameReadonly").html(name);
 	       }
 	       $(templateClone).find("#inputHiddenFirstName").val(row.firstName);
 	       $(templateClone).find("#inputHiddenLastName").val(row.lastName);
