@@ -96,15 +96,28 @@ var wedding = (function () {
 
        $("#search_message").html("Searching for RSVP...")
        $("#weddingPartyArea").html("");
+       $("#inputEmailAddress").val("");
+       $("#inputMessage").val("");
        $("#emailAndMessage").attr("style", "display:none");
 
        var url = "https://script.google.com/macros/s/AKfycbxwLF8OBywjaWGZ59qENIVM4QY4wvcVQojQBBQ4YiQIxwi8N4E/exec";
-       var data =  { parameter: { isRSVPQuery: true, firstName: firstNameEscaped, lastName: lastNameEscaped } };
+       var data =  { parameter: { isRSVPQuery: true, firstName: firstName, lastName: lastName } };
+       var helpemail = "farley" ;
+       helpemail += 13;
+       helpemail = helpemail + "@gmail.com";
+       var errorMessage = "Something didn't quite work on our end. Please reach out for help to Adam and Sonia at " + helpemail + " to resolve any issues!";
+       var noReservationMessage = "We unfortunately were unable to find an RSVP for " + firstName + " " + lastName + ". Please reach out for help to Adam and Sonia at " + helpemail + " to resolve any issues!";
 
        ajaxPost(url, JSON.stringify(data), 
 		function(response) {
 
 	   $("#weddingPartyArea").html(""); // make sure if we finish multiple times, only one is present on page
+
+           if (!response.rows || !response.rows.length > 0) {
+	       $("#search_message").html(noReservationMessage);
+	       return;
+	   }
+
 	   var message = "Your wedding party is provided below: ";
 
 	   for (i in response.rows) {
@@ -135,15 +148,15 @@ var wedding = (function () {
 	       $(templateClone).find("#attendeeLabel").html("Attendee " + (Number(i) + 1));
 
 	       if (row.attendingFriday == "0") {
-		   $(templateClone).find("#attendingFridayInput").val("I will not attend");
+		   $(templateClone).find("#attendingFridayInput").val("I regretfully decline");
 	       } else {
-		   $(templateClone).find("#attendingFridayInput").val("I will attend");
+		   $(templateClone).find("#attendingFridayInput").val("I am delighted to attend");
 	       }
 
 	       if (row.attendingSaturday == "0") {
-		   $(templateClone).find("#attendingSaturdayInput").val("I will not attend");
+		   $(templateClone).find("#attendingSaturdayInput").val("I regretfully decline");
 	       } else {
-		   $(templateClone).find("#attendingSaturdayInput").val("I will attend");
+		   $(templateClone).find("#attendingSaturdayInput").val("I am delighted to attend");
 	       }	       
 
 	       var foodClone;
@@ -155,9 +168,13 @@ var wedding = (function () {
 	       }
 	       $(foodClone).attr("id", "food_" + i);
 	       $(foodClone).attr("style", "");
-
-	       $(foodClone).find("#inputFirstCourse").val(row.firstCourse);
-	       $(foodClone).find("#inputMainCourse").val(row.mainCourse);
+	       
+	       if (row.firstCourse != "") {
+		   $(foodClone).find("#inputFirstCourse").val(row.firstCourse);
+	       }
+	       if (row.mainCourse != "") {
+		   $(foodClone).find("#inputMainCourse").val(row.mainCourse);
+	       }
 	       $(foodClone).find("#inputDietaryRestrictions").val(row.dietaryRestrictions);
 
 	       $(templateClone).find("#foodOptions").append(foodClone);
@@ -180,7 +197,7 @@ var wedding = (function () {
        },
 
 	function(result) {
-	    $("#search_message").html("Something didn't quite work this time. Please try again later!")
+	    $("#search_message").html(errorMessage);
 	});
    }
 
@@ -192,11 +209,11 @@ var wedding = (function () {
 
        var lastName=$("#lastName").val(); 
 
-       var message=$("#inputMessage").val(); 
+       var message=($("#inputMessage").val() || "" ).substring(0,600); 
 
        if (email === "" || firstName === "" || lastName === "")
        {
-	   $("#subscribe_message").html("Error: Please fill out email, first and last name before submitting.");
+	   $("#submit_message").html("One moment! Please fill out email, first and last name before submitting.");
 	   return;
        }
 
@@ -212,8 +229,8 @@ var wedding = (function () {
 	       guestRow["additionalGuestName"] = $(guestSection).find("#inputName").val();
 	       guestRow["firstName"] = $(guestSection).find("#inputHiddenFirstName").val();
 	       guestRow["lastName"] = $(guestSection).find("#inputHiddenLastName").val();
-	       guestRow["attendingFriday"] = $(guestSection).find("#attendingFridayInput").val() == "I will attend" ? 1 : 0;
-	       guestRow["attendingSaturday"] = $(guestSection).find("#attendingSaturdayInput").val() == "I will attend" ? 1 : 0;
+	       guestRow["attendingFriday"] = $(guestSection).find("#attendingFridayInput").val() == "I am delighted to attend" ? 1 : 0;
+	       guestRow["attendingSaturday"] = $(guestSection).find("#attendingSaturdayInput").val() == "I am delighted to attend" ? 1 : 0;
 	       guestRow["firstCourse"] = $(guestSection).find("#inputFirstCourse").val();
 	       guestRow["mainCourse"] = $(guestSection).find("#inputMainCourse").val();
 	       guestRow["dietaryRestrictions"] = $(guestSection).find("#inputDietaryRestrictions").val();
@@ -287,7 +304,22 @@ var wedding = (function () {
 //           $inputs.prop("disabled", false);
        });*/
    }
+
+    var jsonPCallback = function(response) {
+	jsonPCallbackDelegate(response);
+    }
+
+    var jsonPCall = function(url, data, successCallback) {
+ 	jsonPCallbackDelegate = successCallback;
+	$("#JSONPDiv").empty();
+	$("#JSONPDiv").append("<script src=" + url + "?isJSONP=true&data=" + encodeURIComponent(data) + "></script>");
+    }
     
+    // start off with empty function. We'll override this each time we call.
+    var jsonPCallbackDelegate = function(response) {
+	
+    }
+
     var ajaxPost = function(url, data, successCallback, failureCallback) {
 	// raw XHR 
 	var xmlhttp = new XMLHttpRequest();
@@ -300,7 +332,7 @@ var wedding = (function () {
 		else if (xmlhttp.status == 400) {
 		               console.error(
 				   "The following error occurred: " + xmlhttp);
-		    failureCallback();
+		    jsonPCall(url, data, successCallback);
 		}
 		else {
 		               console.error(
@@ -310,8 +342,10 @@ var wedding = (function () {
             }
 	};
 
-    xmlhttp.open("POST", url, true);
-    xmlhttp.send(data);
+//    xmlhttp.open("POST", url, true);
+//    xmlhttp.send(data);
+
+	jsonPCall(url, data, successCallback);
 	 
 	
 
@@ -328,7 +362,8 @@ var wedding = (function () {
     search_for_rsvp: search_for_rsvp,
     update_rsvp: update_rsvp,
     bind_swiping: bind_swiping,
-    failing: failing
+    failing: failing,
+    jsonPCallback: jsonPCallback
   }
 })();
 
