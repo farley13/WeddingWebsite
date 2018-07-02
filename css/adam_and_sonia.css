@@ -78,11 +78,11 @@ p {
     z-index: 2;
 }
 
-.nav-bar a:link, a:visited, a:active {
+.nav-bar a:link, a:visited, a:active, .registry a:link {
   text-decoration: none; color: #dedede;
 }
 
-.nav-bar a:hover {
+.nav-bar a:hover, .registry a:hover {
   font-weight: bold; color: white;
 }
 
@@ -488,6 +488,19 @@ img.resizable.thumbnail_nail {
     .fullsize_image {
 	max-height:400px; 
     }
+}
+
+/* Registry */
+
+.registry, .registry.real_link {
+    color: white;
+    background-color: #070b53;  /* dark navy */    
+    border-radius: 4px; */
+    margin-bottom: 15px;
+    margin-top: 15px;
+    text-align: center;
+    padding: 8px;
+    width: 100px;
 }
 
 /* RSVP section */

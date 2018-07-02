@@ -214,9 +214,20 @@ var wedding = (function () {
 
        var message=($("#inputMessage").val() || "" ).substring(0,600); 
 
-       if (email === "" || firstName === "" || lastName === "")
+       if (firstName === "" || lastName === "")
        {
 	   $("#submit_message").html("One moment! Please fill out email, first and last name before submitting.");
+	   return;
+       }
+
+       if (email === "" || !email) {
+	   $("#submit_message").html("One moment! Please fill out your email before submitting. " + email);
+	   return;
+
+       }
+
+       if ( email.indexOf("@") == -1 || email.indexOf(".") == -1 ) {
+	   $("#submit_message").html("One moment! It looks like you may have incorrectly typed your email: " + email);
 	   return;
        }
 
