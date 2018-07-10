@@ -472,6 +472,20 @@ img.hover-shadow {
     border-width: 0 1px;
 }
 
+.portrait-parent {
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+
+.portrait {
+    width: 250px;
+}
+
+.portrait-description {
+    text-align: center;
+}
+
 img.resizable.thumbnail_nail {
     padding-bottom: 0px;
 }
